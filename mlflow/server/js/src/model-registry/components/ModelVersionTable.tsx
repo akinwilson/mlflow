@@ -75,38 +75,10 @@ enum COLUMN_IDS {
   STATE = 'STATE',
 }
 
-// const handleClick = async () => {
-//     try {
-//       const state = getValue(); // Get the current state
-//       const newState = state === 'Retired' ? 'Live' : state === 'New' ? 'Live' : 'Retired';
-
-//       // Get the serving_image tag from the row data
-//       const servingImageTag = row.original.tags?.find(tag => tag.key === 'serving_image')?.value;
-
-//       // Send a POST request to the backend
-//       const response = await fetch('/api/2.0/mlflow/update-release', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           model_name: row.original.name, // Pass the model name
-//           version: row.original.version, // Pass the model version
-//           new_state: newState, // Pass the new state
-//           serving_image: servingImageTag, // Pass the serving_image tag
-//         }),
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to update state');
-//       }
-
-//       // Refresh the table or update the state locally
-//       window.location.reload(); // Simple refresh for now
-//     } catch (error) {
-//       console.error('Error updating state:', error);
-//     }
-//   };
+interface RunTag {
+  key: string;
+  value: string;
+}
 
 export const ModelVersionTable = ({
   modelName,
@@ -369,9 +341,8 @@ export const ModelVersionTable = ({
         const state = getValue(); // Get the state value
         const actionText = state === 'Retired' || state === 'New' ? 'Release' : 'Retract';
         const buttonColor = actionText === 'Release' ? '#088708' : '#a20a0a';
-    
-        // Get the serving_image tag from the row data
-        // const servingImageTag = row.original.tags?.find(tag => tag.key === 'serving_container')?.value;
+
+
         const handleClick = async () => {
           try {
             const state = getValue(); // Get the current state
@@ -382,7 +353,7 @@ export const ModelVersionTable = ({
             let runTags = null;
 
             try {
-              const runResponse = await fetch(`/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
+              const runResponse = await fetch(`http://localhost:5000/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -413,10 +384,11 @@ export const ModelVersionTable = ({
             // const runTags = data.run.data.tags; // Get the tags from the run
         
             // Find the serving_container tag from the run tags
-            const servingImageTag = runTags.find(tag => tag.key === 'serving_container')?.value;
+
+            const servingImageTag = runTags.find( (tag : RunTag) => tag.key === 'serving_container')?.value;
         
             // Send a POST request to update the model version state
-            const updateResponse = await fetch('/api/2.0/mlflow/model-versions/update', {
+            const updateResponse = await fetch('http://localhost:5000/api/2.0/mlflow/model-versions/update', {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json',
@@ -431,6 +403,8 @@ export const ModelVersionTable = ({
             
             // Log the raw response
             console.log('Update Response:', updateResponse);
+            
+            console.log('This should be a ModelVersionInfoEntity :', updateResponse);
             
             if (!updateResponse.ok) {
               const errorText = await updateResponse.text(); // Log the error response

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ApolloProvider } from '@mlflow/mlflow/src/common/utils/graphQLHooks';
-import { RawIntlProvider } from 'react-intl';
+import { IntlProvider } from 'react-intl'; // Import IntlProvider
 import './index.css';
 import { ApplyGlobalStyles } from '@databricks/design-system';
 import '@databricks/design-system/dist/index.css';
@@ -34,7 +34,13 @@ export function MLFlowRoot() {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <RawIntlProvider value={intl} key={intl.locale}>
+      <IntlProvider
+        locale={intl.locale}
+        messages={intl.messages}
+        key={intl.locale}
+        // @ts-expect-error
+        disablePropTypesWarnings={true} // Add this line
+      >
         <Provider store={store}>
           <DesignSystemContainer isDarkTheme={isDarkTheme}>
             <ApplyGlobalStyles />
@@ -42,7 +48,7 @@ export function MLFlowRoot() {
             <MlflowRouter isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
           </DesignSystemContainer>
         </Provider>
-      </RawIntlProvider>
+      </IntlProvider>
     </ApolloProvider>
   );
 }

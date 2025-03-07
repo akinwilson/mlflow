@@ -55,6 +55,7 @@ export interface ModelVersionInfoEntity {
   status_message?: string;
   aliases?: ModelVersionAliasList;
   tags?: KeyValueEntity[];
+  state?: string;
 }
 
 /**

@@ -180,6 +180,13 @@ module.exports = function () {
             sourceMap: false,
           },
         ],
+        [
+          require.resolve('babel-plugin-transform-react-remove-prop-types'),
+          {
+            removeImport: true,
+            mode: 'remove', // Change this line
+          },
+        ],
       ],
     },
     devServer: {

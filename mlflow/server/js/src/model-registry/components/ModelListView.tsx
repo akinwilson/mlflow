@@ -1,10 +1,3 @@
-/**
- * NOTE: this code file was automatically migrated to TypeScript using ts-migrate and
- * may contain multiple `any` type annotations and `@ts-expect-error` directives.
- * If possible, please improve types while making changes to this file. If the type
- * annotations are already looking good, please remove this comment.
- */
-
 import React from 'react';
 import './ModelListView.css';
 import Utils from '../../common/utils/Utils';
@@ -17,7 +10,6 @@ import { ModelRegistryDocUrl, ModelRegistryOnboardingString, onboarding } from '
 import { CreateModelButton } from './CreateModelButton';
 import LocalStorageUtils from '../../common/utils/LocalStorageUtils';
 import { PageHeader } from '../../shared/building_blocks/PageHeader';
-
 import { FormattedMessage, type IntlShape, injectIntl } from 'react-intl';
 import { Alert, CursorPagination, Spacer as DuBoisSpacer, Spacer, Typography } from '@databricks/design-system';
 import { shouldShowModelsNextUI } from '../../common/utils/FeatureUtils';
@@ -29,6 +21,7 @@ import { withNextModelsUIContext } from '../hooks/useNextModelsUI';
 
 const NAME_COLUMN_INDEX = 'name';
 const LAST_MODIFIED_COLUMN_INDEX = 'last_updated_timestamp';
+
 
 type ModelListViewImplProps = {
   models: any[];
@@ -229,7 +222,7 @@ export class ModelListViewImpl extends React.Component<ModelListViewImplProps, M
     );
   }
 }
-
+// @ts-expect-error
 export const ModelListView = withNextModelsUIContext(injectIntl<'intl', ModelListViewImplProps>(ModelListViewImpl));
 
 const styles = {
