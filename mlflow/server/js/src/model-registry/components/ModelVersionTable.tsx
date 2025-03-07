@@ -353,7 +353,7 @@ export const ModelVersionTable = ({
             let runTags = null;
 
             try {
-              const runResponse = await fetch(`http://localhost:5000/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
+              const runResponse = await fetch(`/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
