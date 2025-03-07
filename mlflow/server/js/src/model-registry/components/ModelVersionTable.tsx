@@ -388,7 +388,7 @@ export const ModelVersionTable = ({
             const servingImageTag = runTags.find( (tag : RunTag) => tag.key === 'serving_container')?.value;
         
             // Send a POST request to update the model version state
-            const updateResponse = await fetch('http://localhost:5000/api/2.0/mlflow/model-versions/update', {
+            const updateResponse = await fetch('/api/2.0/mlflow/model-versions/update', {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json',
