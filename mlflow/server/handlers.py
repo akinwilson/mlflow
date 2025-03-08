@@ -1990,12 +1990,12 @@ def _update_model_version():
     # Updating seldon server list #########################################################
     try:
         # Try to load the kubeconfig from the local machine
-        config.load_kube_config()
+        config.load_incluster_config()
         print("Loaded kubeconfig from local machine.")
     except ApiException as e:
         print("Failed to load kubeconfig. Trying in-cluster config...")
         try:
-            config.load_incluster_config()
+            config.load_kube_config()
             print("Loaded in-cluster config.")
         except ApiException as e:
             print(f"Failed to load in-cluster config: {e}")
