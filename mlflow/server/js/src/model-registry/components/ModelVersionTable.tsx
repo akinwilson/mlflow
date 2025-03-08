@@ -48,6 +48,14 @@ import { Interpolation, Theme } from '@emotion/react';
 import { truncateToFirstLineWithMaxLength } from '../../common/utils/StringUtils';
 import ExpandableList from '../../common/components/ExpandableList';
 
+
+
+
+// this requires the 
+// const baseUrl = process.env.MLFLOW_API_BASE_URL;
+// fetch(`${baseUrl}/mlflow/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`
+// hard-coding ingress path for now.
+
 type ModelVersionTableProps = {
   modelName: string;
   modelVersions?: ModelVersionInfoEntity[];
@@ -353,7 +361,7 @@ export const ModelVersionTable = ({
             let runTags = null;
 
             try {
-              const runResponse = await fetch(`/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
+              const runResponse = await fetch(`/mlflow/api/2.0/mlflow/runs/get?run_id=${row.original.run_id}`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -388,7 +396,7 @@ export const ModelVersionTable = ({
             const servingImageTag = runTags.find( (tag : RunTag) => tag.key === 'serving_container')?.value;
         
             // Send a POST request to update the model version state
-            const updateResponse = await fetch('/api/2.0/mlflow/model-versions/update', {
+            const updateResponse = await fetch('/mlflow/api/2.0/mlflow/model-versions/update', {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json',
